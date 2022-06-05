@@ -67,7 +67,7 @@ def parser(inputan):
                     print('isi stack:', stack)
             else:
                 print('error')
-                break;
+                break
         elif top in non_terminals:
             print('top adalah symbol non-terminal')
             if parse_table[(top, symbol)][0] != 'error':
@@ -77,10 +77,10 @@ def parser(inputan):
                     stack.append(symbol_push[i])
             else:
                 print('error')
-                break;
+                break
         else:
             print('error')
-            break;
+            break
         print('isi stack: ', stack)
         print()
 
