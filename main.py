@@ -1,5 +1,3 @@
-
-
 def parser(inputan):
     tokens = inputan.lower().split()
     tokens.append('EOS')
