@@ -204,11 +204,10 @@ def parser(inputan):
         print('isi stack: ', stack)
         print()
 
-    print()
     if symbol == 'EOS' and len(stack) == 0:
         print('input string = ', '"', inputan, '"', '<--diterima, sesuai grammar NN VB NN')
     else:
-        print(' input string = ', '"', inputan, '"', ', tidak diterima, tidak sesuai grammar NN VB NN')  
+        print('input string = ', '"', inputan, '"', ', tidak diterima, tidak sesuai grammar NN VB NN')  
 
     return parser
 
