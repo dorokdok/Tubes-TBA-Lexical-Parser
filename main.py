@@ -1,3 +1,123 @@
+def lexical(inputan):
+    import string
+    inputanString = inputan.lower()+'#'
+
+    listAlphabet = list(string.ascii_lowercase)
+    listState=[]
+    for i in range(0,41):
+        if (i != 26):
+            listState.append(f'q{i}')
+    tableTransition = {}
+
+    for state in listState:
+        for alphabet in listAlphabet:
+            tableTransition[(state, alphabet)] = 'error'
+        tableTransition[(state, '#')] = 'error'
+        tableTransition[(state, ' ')] = 'error'
+
+    # First State
+    tableTransition['q0', ' '] = 'q0'
+
+    # Final State
+    tableTransition['q3', '#'] = 'accept'
+    tableTransition['q3', ' '] = 'q8'
+    tableTransition['q8', '#'] = 'accept'
+    tableTransition['q8', ' '] = 'q8'
+
+    # Word sie
+    tableTransition['q0', 's'] = 'q1'
+    tableTransition['q1', 'i'] = 'q2'
+    tableTransition['q2', 'e'] = 'q3'
+    tableTransition['q8', 's'] = 'q1'
+    
+    # Word schuhe
+    tableTransition['q1', 'c'] = 'q4'
+    tableTransition['q4', 'h'] = 'q5'
+    tableTransition['q5', 'u'] = 'q6'
+    tableTransition['q6', 'h'] = 'q7'
+    tableTransition['q7', 'e'] = 'q3'
+
+    # Word er
+    tableTransition['q0', 'e'] = 'q9'
+    tableTransition['q9', 'r'] = 'q3'
+    tableTransition['q8', 'e'] = 'q9'
+
+    # Word mutter
+    tableTransition['q0', 'm'] = 'q11'
+    tableTransition['q11', 'u'] = 'q12'
+    tableTransition['q12', 't'] = 'q13'
+    tableTransition['q13', 't'] = 'q14'
+    tableTransition['q14', 'e'] = 'q9'
+    tableTransition['q8', 'm'] = 'q11'
+
+    # Word vatter
+    tableTransition['q0', 'v'] = 'q15'
+    tableTransition['q15', 'a'] = 'q16'
+    tableTransition['q16', 't'] = 'q14'
+    tableTransition['q8', 'v'] = 'q15'
+
+    # Word wasser
+    tableTransition['q0', 'w'] = 'q10'
+    tableTransition['q10', 'a'] = 'q17'
+    tableTransition['q17', 's'] = 'q18'
+    tableTransition['q18', 's'] = 'q19'
+    tableTransition['q19', 'e'] = 'q9'
+    tableTransition['q8', 'w'] = 'q10'
+
+    # Word isst
+    tableTransition['q0', 'i'] = 'q20'
+    tableTransition['q20', 's'] = 'q18'
+    tableTransition['q19', 't'] = 'q3'
+    tableTransition['q8', 'i'] = 'q20'
+
+    # Word haehnchen
+    tableTransition['q0', 'h'] = 'q33'
+    tableTransition['q33', 'a'] = 'q34'
+    tableTransition['q34', 'e'] = 'q35'
+    tableTransition['q35', 'h'] = 'q36'
+    tableTransition['q36', 'n'] = 'q37'
+    tableTransition['q37', 'c'] = 'q38'
+    tableTransition['q38', 'h'] = 'q39'
+    tableTransition['q39', 'e'] = 'q40'
+    tableTransition['q40', 'n'] = 'q3'
+    tableTransition['q8', 'h'] = 'q33'
+
+    # Word trinkt
+    tableTransition['q0', 't'] = 'q21'
+    tableTransition['q21', 'r'] = 'q22'
+    tableTransition['q22', 'i'] = 'q23'
+    tableTransition['q23', 'n'] = 'q24'
+    tableTransition['q24', 'k'] = 'q25'
+    tableTransition['q25', 't'] = 'q3'
+    tableTransition['q8', 't'] = 'q21'
+
+    # Word benutzt
+    tableTransition['q0', 'b'] = 'q27'
+    tableTransition['q27', 'e'] = 'q28'
+    tableTransition['q28', 'n'] = 'q29'
+    tableTransition['q29', 'u'] = 'q30'
+    tableTransition['q30', 't'] = 'q31'
+    tableTransition['q31', 'z'] = 'q32'
+    tableTransition['q32', 't'] = 'q3'
+    tableTransition['q8', 'b'] = 'q27'
+
+    idx_char = 0
+    state = 'q0'
+    current_token = ' '
+    while state != 'accept':
+        current_char = inputanString[idx_char]
+        current_token += current_char
+        state = tableTransition[(state, current_char)]
+        if state=='error':
+            break;
+        idx_char = idx_char + 1
+
+    #simpulan
+    if state == 'accept':
+        return True
+    else:
+        return False
+
 def parser(inputan):
     tokens = inputan.lower().split()
     tokens.append('EOS')
@@ -92,16 +212,16 @@ def parser(inputan):
 
     return parser
 
-
-
 def main():
     print("Masukan kata-kata sesuai Kamus")
     print("Kamus: er, sie, mutter, vater, trinkt , isst, benutzt, wasser, haehnchen, schuhe")
     sentence = input('kalimat yang akan dimasukkan: ')
-    print("program parser \n")
-    parser(sentence)
+    if (lexical(sentence)):
+        print("Inputan valid, maka akan dilakukan parser")
+        parser(sentence)
+    else:
+        print("Inputan tidak sesuai dengan yang ada pada kamus, parser tidak dilakukan")
 
 
 if __name__ == '__main__':
     main()
-
