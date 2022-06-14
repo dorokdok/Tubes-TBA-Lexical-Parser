@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head color="#ffffff">
+		<center>
+			<font face="chicle" size="20" color="#000000">Tubes TBA - Kelompok 11</font>
+		</center>
+	</head>
+	{% if error %}  
+		<p><strong>Error</strong>: {{error}}</p>  
+	{% endif %}  
+	{% with messages = get_flashed_messages() %}  
+		{% if messages %}  
+		  {% for message in messages %}  
+			   <p>{{ message }}</p>  
+		  {% endfor %}  
+		{% endif %}  
+ 	{% endwith %}  
+	<p>Masukan kata-kata sesuai Kamus</p>
+	<p>Kamus: er, sie, mutter, vater, trinkt , isst, benutzt, wasser, haehnchen, schuhe</p>
+	<body color="#ffffff">
+		<form action="/home" method="POST">
+			Kalimat yang akan dimasukkan: <input type="text" name="nama"><br>
+			<br><br>
+			<input type="submit" value="Submit">
+		</form>
+	</body>
+</html>
